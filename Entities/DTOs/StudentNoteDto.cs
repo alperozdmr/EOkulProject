@@ -10,6 +10,7 @@ namespace Entities.DTOs
     [Serializable]
     public class StudentNoteDto :IDto
     {
+        public int WhichTerm { get; set; }
         public string? StudentName { get; set; }
         public string? StudentSurname { get; set; }
         public float Math { get; set; }
@@ -19,6 +20,7 @@ namespace Entities.DTOs
         public float Turkish { get; set; }
         public float History { get; set; }
         public float Geography { get; set; }
+        public int Year { get; set; }   
 
     }
 }

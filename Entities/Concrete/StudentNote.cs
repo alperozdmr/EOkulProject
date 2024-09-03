@@ -13,6 +13,7 @@ namespace Entities.Concrete
     {
         public int Id { get; set; } = 0;
         public int StudentId { get; set; }
+        public int WhichTerm { get; set; }
         public float Math { get; set; }
         public float Physics { get; set; }
         public float Biology { get; set; }
@@ -20,6 +21,7 @@ namespace Entities.Concrete
         public float Turkish { get; set; }
         public float History { get; set; }
         public float Geography { get; set; }
+        public int Year { get; set; } = DateTime.Now.Year; 
 
 
 

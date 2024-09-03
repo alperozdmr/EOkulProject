@@ -1,4 +1,4 @@
-﻿using Core.DataAccess.EntitiyFramework;
+﻿using Core.DataAccess.EntityFramework;
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete
 {
-    public class EfTeacherDal : EfEntitiyRepositoryBase<Teacher, EOkulDb>,ITeacherDal
+    public class EfTeacherDal : EfEntityRepositoryBase<Teacher, EOkulDb>,ITeacherDal
     {
         public List<OperationClaim> GetClaims(Teacher teacher)
         {

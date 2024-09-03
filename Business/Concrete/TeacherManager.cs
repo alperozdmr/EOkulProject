@@ -21,28 +21,32 @@ namespace Business.Concrete
         {
             _teacherDal = teacherDal;
         }
-        public void Add(Teacher entity)
+        public async Task AddAsync(Teacher entity)
         {
-            _teacherDal.Add(entity);
+            await _teacherDal.AddAsync(entity);
+        }
+        public async Task AddRangeAsync(List<Teacher> entity)
+        {
+            await _teacherDal.AddRangeAsync(entity);
         }
 
-        public IResult DeleteUser(int Id)
+        public async Task<IResult> DeleteUser(int Id)
         {
-            Teacher teacher = _teacherDal.Get(c => c.Id == Id);
+            Teacher teacher = await _teacherDal.GetAsync(c => c.Id == Id);
             teacher.IsActive = false;
             _teacherDal.Update(teacher);
             return new SuccessResult(Messages.UserDeleted);
         }
 
-        public Teacher GetByIdentity(long Tc)
+        public async Task<Teacher> GetByIdentityAsync(long Tc)
         {
-            var result = _teacherDal.Get(x => x.TcIdentity == Tc);
+            var result = await _teacherDal.GetAsync(x => x.TcIdentity == Tc);
             return result;
         }
 
-        public Teacher GetByUsername(string username)
+        public async Task<Teacher> GetByUsername(string username)
         {
-            var result = _teacherDal.Get(x=>x.UserName == username);
+            var result =await _teacherDal.GetAsync(x=>x.UserName == username);
             return result;
         }
 
@@ -51,15 +55,21 @@ namespace Business.Concrete
             return _teacherDal.GetClaims(entity);
         }
 
-        public IDataResult<List<Teacher>> GetUserById(int id)
+        public async Task<IDataResult<List<Teacher>>> GetUserByIdAsync(int id)
         {
-            return new SuccessDataResult<List<Teacher>>(_teacherDal.GetAll(x => x.Id == id).Where(x => x.IsActive == true).ToList(), Messages.UserListed);
+            return new SuccessDataResult<List<Teacher>>(await _teacherDal.GetAllAsync(x => x.Id == id && x.IsActive == true), Messages.UserListed);
         }
 
         public IResult UpdateUser(Teacher entity)
         {
             _teacherDal.Update(entity);
             return new SuccessResult(Messages.UserUpdated);
+        }
+
+        public IResult UpdateUserList(List<Teacher> list)
+        {
+            _teacherDal.UpdateList(list);
+            return new SuccessResult();
         }
     }
 }

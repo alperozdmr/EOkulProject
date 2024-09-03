@@ -16,9 +16,9 @@ namespace EOkulAPI.Controllers
             _authService = authService;
         }
         [HttpPost("login")]
-        public ActionResult Login(StudentForLoginDto userForLoginDto)
+        public async Task<ActionResult> Login(StudentForLoginDto userForLoginDto)
         {
-            var userToLogin = _authService.Login(userForLoginDto);
+            var userToLogin =await _authService.Login(userForLoginDto);
             if (!userToLogin.Success)
             {
                 return BadRequest(userToLogin.Message);
@@ -34,15 +34,15 @@ namespace EOkulAPI.Controllers
         }
 
         [HttpPost("register")]
-        public ActionResult Register(StudentForRegisterDto userForRegisterDto)
+        public async Task<ActionResult> Register(StudentForRegisterDto userForRegisterDto)
         {
-            var userExists = _authService.UserExists(userForRegisterDto.TcIdentity);
+            var userExists = await _authService.UserExist(userForRegisterDto.TcIdentity);
             if (!userExists.Success)
             {
                 return BadRequest(userExists.Message);
             }
 
-            var registerResult = _authService.Register(userForRegisterDto, userForRegisterDto.Password);
+            var registerResult = await _authService.Register(userForRegisterDto, userForRegisterDto.Password);
             var result = _authService.CreateAccessToken(registerResult.Data);
             if (result.Success)
             {
@@ -52,9 +52,9 @@ namespace EOkulAPI.Controllers
             return BadRequest(result.Message);
         }
         [HttpPost("ChangePassword")]
-        public IActionResult ChangePassword(long tc, string OldPassword, string NewPassword)
+        public async Task<IActionResult> ChangePassword(long tc, string OldPassword, string NewPassword)
         {
-            var result = _authService.ChangePassword(tc, OldPassword, NewPassword);
+            var result =await _authService.ChangePassword(tc, OldPassword, NewPassword);
             if (result.Success)
             {
                 return Ok(result.Data);

@@ -16,10 +16,10 @@ namespace Business.Abstract
         where Log : class, IDto, new()
         where Reg : class, IDto, new()
     {
-        IDataResult<T> Register(Reg RegisterDto, string password);
-        IDataResult<T> Login(Log LoginDto);
-        IResult UserExists(long Tc);
-        IDataResult<T> ChangePassword(long Tc, string OldPassword, string NewPassword);
+        Task<IDataResult<T>> Register(Reg RegisterDto, string password);
+        Task<IDataResult<T>> Login(Log LoginDto);
+        Task<IResult> UserExist(long Tc);
+        Task<IDataResult<T>> ChangePassword(long Tc, string OldPassword, string NewPassword);
         IDataResult<AccessToken> CreateAccessToken(T enity);
     }
 }

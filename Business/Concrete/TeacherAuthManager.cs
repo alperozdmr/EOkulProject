@@ -28,15 +28,15 @@ namespace Business.Concrete
             _tokenHelper = tokenHelper;
         }
 
-        public IDataResult<Teacher> Register(TeacherForRegisterDto userForRegisterDto, string password)
+        public async Task<IDataResult<Teacher>> Register(TeacherForRegisterDto userForRegisterDto, string password)
         {
-            IResult result = BusinessRules.Run(
-                CheckIfTurkisCitizen(userForRegisterDto)
-            );
-            if (!result.Success )
-            {
-                return new ErrorDataResult<Teacher>(null,"Türk vatandaşı değil");
-            }
+            //IResult result = BusinessRules.Run(
+            //    CheckIfTurkisCitizen(userForRegisterDto)
+            //);
+            //if (!result.Success )
+            //{
+            //    return new ErrorDataResult<Teacher>(null,"Türk vatandaşı değil");
+            //}
             byte[] passwordHash, passwordSalt;
             HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
             var teacher = new Teacher
@@ -51,13 +51,13 @@ namespace Business.Concrete
                 BirthYear = userForRegisterDto.BirthYear,   
                 IsActive = true
             };
-            _userService.Add(teacher);
+            await _userService.AddAsync(teacher);
             return new SuccessDataResult<Teacher>(teacher, Messages.UserRegistered);
         }
 
-        public IDataResult<Teacher> Login(TeacherForLoginDto userForLoginDto)
+        public async Task<IDataResult<Teacher>> Login(TeacherForLoginDto userForLoginDto)
         {
-            var userToCheck = _userService.GetByUsername(userForLoginDto.UserNanme);
+            var userToCheck = await _userService.GetByUsername(userForLoginDto.UserNanme);
             if (userToCheck == null)
             {
                 return new ErrorDataResult<Teacher>(Messages.UserNotFound);
@@ -71,18 +71,18 @@ namespace Business.Concrete
             return new SuccessDataResult<Teacher>(userToCheck, Messages.SuccessfulLogin);
         }
 
-        public IResult UserExists(long Tc)
+        public async Task<IResult> UserExist(long Tc)
         {
-            if (_userService.GetByIdentity(Tc) != null)
+            if (await _userService.GetByIdentityAsync(Tc) != null)
             {
                 return new ErrorResult(Messages.UserAlreadyExists);
             }
             return new SuccessResult();
         }
-        public IDataResult<Teacher> ChangePassword(long Tc, string OldPassword,string NewPassword) {
-            var result = UserExists(Tc);
+        public async Task<IDataResult<Teacher>> ChangePassword(long Tc, string OldPassword,string NewPassword) {
+            var result =await  UserExist(Tc);
             if (result.Success) { return new ErrorDataResult<Teacher>(Messages.UserNotFound); }
-            var userToCheck = _userService.GetByIdentity(Tc);
+            var userToCheck = await _userService.GetByIdentityAsync(Tc);
             if (!HashingHelper.VerifyPasswordHash(OldPassword, userToCheck.PasswordHash, userToCheck.PasswordSalt))
             {
                 return new ErrorDataResult<Teacher>(Messages.PasswordError);
@@ -94,7 +94,7 @@ namespace Business.Concrete
             byte[] passwordHash, passwordSalt;
             HashingHelper.CreatePasswordHash(NewPassword, out passwordHash, out passwordSalt);
 
-            Teacher teacher = _userService.GetByIdentity(Tc);
+            Teacher teacher = await _userService.GetByIdentityAsync(Tc);
             teacher.TcIdentity= userToCheck.TcIdentity;
             teacher.Email= userToCheck.Email;
             teacher.FirstName= userToCheck.FirstName;

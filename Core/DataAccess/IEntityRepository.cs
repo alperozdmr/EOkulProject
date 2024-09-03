@@ -11,11 +11,13 @@ namespace Core.DataAccess
 {
     public interface IEntityRepository<T> where T :class, IEntitiy, new()
     {
-        List<T> GetAll(Expression<Func<T, bool>> filter = null); //Read
-        T Get(Expression<Func<T, bool>> filter);
-        void Add(T entity);  //Create
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter = null); //Read
+        Task<T> GetAsync(Expression<Func<T, bool>> filter);
+        Task AddAsync(T entity);  //Create
+        Task AddRangeAsync(List<T> entity);
         void Update(T entity);   //Update
+        void UpdateList(List<T> entities);
         void Delete(T entity); //Delete
-        List<T> GetAllByCategory(int ColorId);
+        List<T> Where(Expression<Func<T, bool>> expression);
     }
 }

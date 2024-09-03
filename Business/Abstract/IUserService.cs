@@ -11,12 +11,14 @@ namespace Business.Abstract
 {
     public interface IUserService<T> where T : class,IEntitiy,new()
     {
-        IResult DeleteUser(int Id);
+        Task<IResult> DeleteUser(int Id);
         IResult UpdateUser(T entity ); 
-        IDataResult<List<T>>GetUserById(int id);
+        IResult UpdateUserList(List<T> list);
+        Task<IDataResult<List<T>>> GetUserByIdAsync(int id);
         List<OperationClaim> GetClaims(T entity);
-        void Add(T entity);
-        T GetByIdentity(long Tc);
-        T GetByUsername (string username);
+        Task AddAsync(T entity);
+        Task AddRangeAsync(List<T> entity);
+        Task<T> GetByIdentityAsync(long Tc);
+        Task<T> GetByUsername (string username);
     }
 }

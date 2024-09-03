@@ -150,6 +150,12 @@ namespace DataAccess.Migrations
                     b.Property<float>("Turkish")
                         .HasColumnType("real");
 
+                    b.Property<int>("WhichTerm")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("StudentNotes");

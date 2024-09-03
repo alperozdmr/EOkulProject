@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(EOkulDb))]
-    [Migration("20240725080100_updated")]
-    partial class updated
+    [Migration("20240903130042_mig1")]
+    partial class mig1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -151,6 +151,12 @@ namespace DataAccess.Migrations
 
                     b.Property<float>("Turkish")
                         .HasColumnType("real");
+
+                    b.Property<int>("WhichTerm")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

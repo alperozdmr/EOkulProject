@@ -1,4 +1,4 @@
-﻿using Core.DataAccess.EntitiyFramework;
+﻿using Core.DataAccess.EntityFramework;
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete
 {
-    public class EfStudentNoteDal : EfEntitiyRepositoryBase<StudentNote, EOkulDb>, IStudentNoteDal
+    public class EfStudentNoteDal : EfEntityRepositoryBase<StudentNote, EOkulDb>, IStudentNoteDal
     {
         public List<StudentNoteDto> GetNotes()
         {
@@ -22,15 +22,17 @@ namespace DataAccess.Concrete
                                  on s.Id equals Sn.StudentId
                              select new StudentNoteDto
                              {
+                                 WhichTerm = Sn.WhichTerm,
                                  StudentName = s.FirstName,
                                  StudentSurname = s.LastName,
                                  Math = Sn.Math,
                                  Physics = Sn.Physics,
-                                 Biology=Sn.Biology,
-                                 Chemistry=Sn.Chemistry,    
-                                 Turkish=Sn.Turkish,
-                                 Geography=Sn.Geography,
-                                 History=Sn.History,
+                                 Biology = Sn.Biology,
+                                 Chemistry = Sn.Chemistry,
+                                 Turkish = Sn.Turkish,
+                                 Geography = Sn.Geography,
+                                 History = Sn.History,
+                                 Year = Sn.Year,
                              };
                 return result.ToList();
 

@@ -25,7 +25,7 @@ namespace Business.Concrete
         [SecuredOperation("Teacher")]
         public IResult AddNote(StudentNote studentNote)
         {
-           _studentNoteDal.Add(studentNote);
+           _studentNoteDal.AddAsync(studentNote);
             return new SuccessResult(); 
         }
         [SecuredOperation("Teacher,Student")]

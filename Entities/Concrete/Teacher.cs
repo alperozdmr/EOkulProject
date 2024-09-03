@@ -13,5 +13,9 @@ namespace Entities.Concrete
     public class Teacher :User,IEntitiy
     {
         public string UserName { get; set; }
+        public long TcIdentity { get; set; }
+        public int BirthYear { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
     }
 }
