@@ -20,6 +20,24 @@ namespace DataAccess.Concrete
         public DbSet<OperationClaim>? OperationClaims { get; set; }
         public DbSet<StudentOperationClaim>? StudentOperationClaims { get; set; }
         public DbSet<TeacherOperationClaim>? TeacherOperationClaims { get; set; }
-        public DbSet<StudentNote>? StudentNotes { get; set; }   
+        public DbSet<StudentNote>? StudentNotes { get; set; }
+        public DbSet<StudentClass>? StudentsClasses { get; set; }
+
+
+        // BAĞIMLILIKLAR YANLIŞ
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    builder.Entity<Student>()
+        //        .HasOne(x => x.StudentClass)
+        //        .WithMany(y => y.Students)
+        //        .HasForeignKey(z => z.Id)
+        //        .OnDelete(DeleteBehavior.ClientSetNull);
+        //    builder.Entity<Student>()
+        //        .HasMany(x => x.StudentNote)
+        //        .WithOne(y => y.Student)
+        //        .HasForeignKey(y => y.StudentId);
+
+        //    base.OnModelCreating(builder);
+        //}
     }
 }

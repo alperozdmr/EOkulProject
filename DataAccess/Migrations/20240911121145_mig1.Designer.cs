@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(EOkulDb))]
-    [Migration("20240903130042_mig1")]
+    [Migration("20240911121145_mig1")]
     partial class mig1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,12 +112,33 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<int>("StudentClassId")
+                        .HasColumnType("int");
+
                     b.Property<long>("TcIdentity")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("StudentClassId");
+
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.StudentClass", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClassName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StudentsClasses");
                 });
 
             modelBuilder.Entity("Entities.Concrete.StudentNote", b =>
@@ -207,6 +228,22 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teachers");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.Student", b =>
+                {
+                    b.HasOne("Entities.Concrete.StudentClass", "StudentClass")
+                        .WithMany("Students")
+                        .HasForeignKey("StudentClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StudentClass");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.StudentClass", b =>
+                {
+                    b.Navigation("Students");
                 });
 #pragma warning restore 612, 618
         }

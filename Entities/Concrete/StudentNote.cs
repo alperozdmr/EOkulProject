@@ -21,10 +21,7 @@ namespace Entities.Concrete
         public float Turkish { get; set; }
         public float History { get; set; }
         public float Geography { get; set; }
-        public int Year { get; set; } = DateTime.Now.Year; 
-
-
-
-
+        public int Year { get; set; } 
+        //public int ClassId { get; set; }
     }
 }

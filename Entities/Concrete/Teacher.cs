@@ -2,6 +2,7 @@
 using Core.Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,9 @@ namespace Entities.Concrete
 {
     [Serializable]
 
-    public class Teacher :User,IEntitiy
+    public class Teacher :User
     {
+        [Required]
         public string UserName { get; set; }
         public long TcIdentity { get; set; }
         public int BirthYear { get; set; }

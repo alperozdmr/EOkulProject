@@ -1,7 +1,9 @@
 ﻿using Core.DataAccess.EntityFramework;
+using Core.Entities;
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,6 @@ namespace DataAccess.Concrete
 {
     public class EfStudentDal : EfEntityRepositoryBase<Student,EOkulDb> ,IStudentDal
     {
-        
         public List<OperationClaim> GetClaims(Student student)
         {
             using (var context = new EOkulDb())

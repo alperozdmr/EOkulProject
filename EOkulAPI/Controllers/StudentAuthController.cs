@@ -10,7 +10,7 @@ namespace EOkulAPI.Controllers
     [ApiController]
     public class StudentAuthController : ControllerBase
     {
-        private IAuthService<Student, StudentForLoginDto, StudentForRegisterDto> _authService;
+        private readonly IAuthService<Student, StudentForLoginDto, StudentForRegisterDto> _authService;
         public StudentAuthController(IAuthService<Student, StudentForLoginDto, StudentForRegisterDto> authService)
         {
             _authService = authService;

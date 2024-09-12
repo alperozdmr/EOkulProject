@@ -8,6 +8,7 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -54,10 +55,10 @@ namespace Business.Concrete
             return _studentDal.GetClaims(entity);
         }
 
-        public async Task<IDataResult<List<Student>>> GetUserByIdAsync(int id)
+        public async Task<IDataResult<Student>> GetUserByIdAsync(int id)
         {
 
-            return new SuccessDataResult<List<Student>>(await _studentDal.GetAllAsync(x=>x.Id==id && x.IsActive==true), Messages.UserListed);
+            return new SuccessDataResult<Student>(await _studentDal.GetAsync(x=>x.Id==id && x.IsActive==true), Messages.UserListed);
 
 
         }
@@ -71,6 +72,11 @@ namespace Business.Concrete
         {
             _studentDal.UpdateList(entity);
             return new SuccessResult(Messages.UserListed);
+        }
+
+        public IDataResult<List<Student>> Where(Expression<Func<Student, bool>> expression)
+        {
+            return new SuccessDataResult<List<Student>> (_studentDal.Where(expression));
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Core.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    [Serializable]
-    public class StudentNoteDto :IDto
+    public class AddNoteDto
     {
-        public int WhichTerm { get; set; }
+        public int StudentId { get; set; }
         public string? StudentName { get; set; }
         public string? StudentSurname { get; set; }
         public string? StudentClass { get; set; }
@@ -21,7 +19,5 @@ namespace Entities.DTOs
         public float Turkish { get; set; }
         public float History { get; set; }
         public float Geography { get; set; }
-        public int Year { get; set; }   
-
     }
 }

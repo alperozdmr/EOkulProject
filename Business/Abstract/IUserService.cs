@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Entities;
+using System.Linq.Expressions;
 
 namespace Business.Abstract
 {
@@ -14,11 +15,12 @@ namespace Business.Abstract
         Task<IResult> DeleteUser(int Id);
         IResult UpdateUser(T entity ); 
         IResult UpdateUserList(List<T> list);
-        Task<IDataResult<List<T>>> GetUserByIdAsync(int id);
+        Task<IDataResult<T>> GetUserByIdAsync(int id);
         List<OperationClaim> GetClaims(T entity);
         Task AddAsync(T entity);
         Task AddRangeAsync(List<T> entity);
         Task<T> GetByIdentityAsync(long Tc);
         Task<T> GetByUsername (string username);
+        IDataResult<List<T>> Where(Expression<Func<T, bool>> expression);
     }
 }

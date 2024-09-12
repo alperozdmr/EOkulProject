@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -55,9 +56,9 @@ namespace Business.Concrete
             return _teacherDal.GetClaims(entity);
         }
 
-        public async Task<IDataResult<List<Teacher>>> GetUserByIdAsync(int id)
+        public async Task<IDataResult<Teacher>> GetUserByIdAsync(int id)
         {
-            return new SuccessDataResult<List<Teacher>>(await _teacherDal.GetAllAsync(x => x.Id == id && x.IsActive == true), Messages.UserListed);
+            return new SuccessDataResult<Teacher>(await _teacherDal.GetAsync(x => x.Id == id && x.IsActive == true), Messages.UserListed);
         }
 
         public IResult UpdateUser(Teacher entity)
@@ -70,6 +71,11 @@ namespace Business.Concrete
         {
             _teacherDal.UpdateList(list);
             return new SuccessResult();
+        }
+
+        public IDataResult<List<Teacher>> Where(Expression<Func<Teacher, bool>> expression)
+        {
+            return new SuccessDataResult<List<Teacher>>(_teacherDal.Where(expression));
         }
     }
 }

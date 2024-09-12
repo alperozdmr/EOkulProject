@@ -34,6 +34,9 @@ namespace Business.DependancyResolvers.Autofac
 
             builder.RegisterType<StudentNoteManager>().As<IStudentNoteService>().SingleInstance();
             builder.RegisterType<EfStudentNoteDal>().As<IStudentNoteDal>().SingleInstance();
+            builder.RegisterType<StudentClassManager>().As<IStudentClassService>().SingleInstance();
+            builder.RegisterType<EfStudentClassDal>().As<IStudentClassDal>().SingleInstance();
+
 
             builder.RegisterType<JwtHelper>().As<ITokenHelper>().SingleInstance(); ;
 

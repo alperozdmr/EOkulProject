@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,17 +10,16 @@ namespace EOkulAPI.Controllers
     [ApiController]
     public class TermController : ControllerBase
     {
-        IStudentNoteService _studentNoteService;
+        private readonly IStudentNoteService _studentNoteService;
         public TermController(IStudentNoteService studentNoteService)
         {
             _studentNoteService = studentNoteService;
         }
         [HttpPost]
         [Route("AddToFirstTerm")]
-        public IActionResult AddToFirstTerm(StudentNote studentNote)
+        public async Task<IActionResult> AddToFirstTerm(AddNoteDto studentNote)
         {
-            studentNote.WhichTerm = 1;
-            var result = _studentNoteService.AddNote(studentNote);
+            var result = await _studentNoteService.AddToFirstTerm(studentNote);
             if (result.Success)
             {
                 return Ok(result);
@@ -40,10 +40,9 @@ namespace EOkulAPI.Controllers
         }
         [HttpPost]
         [Route("AddToSecondTerm")]
-        public IActionResult AddToSecondTerm(StudentNote studentNote)
+        public async Task<IActionResult> AddToSecondTerm(AddNoteDto studentNote)
         {
-            studentNote.WhichTerm = 2;
-            var result = _studentNoteService.AddNote(studentNote);
+            var result = await  _studentNoteService.AddToSecondTerm(studentNote);
             if (result.Success)
             {
                 return Ok(result);
@@ -62,16 +61,27 @@ namespace EOkulAPI.Controllers
             }
             return BadRequest(result.Message);
         }
-        //[HttpPost]
-        //[Route("GetAllByTerms")]
-        //public IActionResult GetAllByTerms(int term)
-        //{
-        //    var result = _studentNoteService.GetAllNotesByTerm(term);
-        //    if (result.Success)
-        //    {
-        //        return Ok(result);
-        //    }
-        //    return BadRequest(result.Message);
-        //}
+        [HttpPost]
+        [Route("GetAllByTerms")]
+        public IActionResult GetAllByTerms(int term)
+        {
+            var result = _studentNoteService.GetAllNotesByTerm(term);
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(result.Message);
+        }
+        [HttpPost]
+        [Route("Get All Notes By Term and Name")]
+        public IActionResult GetAllNotesByTermAndName(int term, string name)
+        {
+            var result = _studentNoteService.GetAllNotesByTermAndName(name.ToUpper(), term);
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest();
+        }
     }
 }

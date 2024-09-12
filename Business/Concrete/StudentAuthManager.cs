@@ -49,7 +49,7 @@ namespace Business.Concrete
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 TcIdentity = userForRegisterDto.TcIdentity,
-
+                StudentClassId = userForRegisterDto.StudentClassId,
                 BirthYear = userForRegisterDto.BirthYear,
                 IsActive = true
             };
@@ -117,14 +117,9 @@ namespace Business.Concrete
             HashingHelper.CreatePasswordHash(NewPassword, out passwordHash, out passwordSalt);
 
             Student student =await  _userService.GetByIdentityAsync(Tc);
-            student.TcIdentity = userToCheck.TcIdentity;
-            student.Email = userToCheck.Email;
-            student.FirstName = userToCheck.FirstName;
-            student.LastName = userToCheck.LastName;
+           
             student.PasswordHash = passwordHash;
             student.PasswordSalt = passwordSalt;
-            student.BirthYear = userToCheck.BirthYear;
-            student.IsActive = userToCheck.IsActive;
 
             _userService.UpdateUser(student);
             return new SuccessDataResult<Student>(student, Messages.UserUpdated);
